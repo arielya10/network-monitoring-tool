@@ -1,74 +1,178 @@
-.status-label {
-  position: fixed; /* Fixed position */
-  top: 15px; /* Place it directly above the packet display */
-  right: calc(60px + 1cm); /* Align it with the right edge of the packet display */
-  padding: 5px 20px; /* Padding inside the label */
-  color: white; /* Text color */
-  text-align: center; /* Center the text */
-  font-weight: bold; /* Bold text */
-  border-radius: 5px; /* Rounded corners */
-  z-index: 1001; /* Ensure it's above the packet display */
+/* General Reset and Basic Styling */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-.connected {
-  background-color: #4CAF50; /* Green background for connected status */
+body {
+  background-color: #F0F2F5;
+  color: #333;
+  line-height: 1.6;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Dark Mode Styles */
+body.dark-mode {
+  background-color: #121212;
+  color: #FFF;
+}
+
+.dark-mode .packet-display,
+.dark-mode .packet,
+.dark-mode footer,
+.dark-mode header,
+.dark-mode .status-label,
+.dark-mode .packet-count {
+  background-color: #1E1E1E;
+  color: #FFF;
+  border-color: #333;
+}
+
+/* Container for Centering Content */
+.container {
+  width: 90%;
+  margin: auto;
+  overflow: hidden;
+}
+
+/* Navbar/Header */
+header {
+  background-color: #2C3E50;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+/* Packet Display Wrapper - Relative Position */
+.packet-display-wrapper {
+  position: fixed;
+  right: 10px;
+  top: 70px;
+  width: 320px;
+  height: auto;
+}
+
+
+/* Status Label */
+.status-label {
+  position: fixed;
+  right: 63px;
+  top: 60px;
+  width: 200px; /* Fixed width */
+  background-color: #16A085;
+  color: white;
+  padding: 10px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  z-index: 1000;
 }
 
 .disconnected {
-  background-color: #F44336; /* Red background for disconnected status */
+  background-color: #E74C3C;
 }
 
-/* Place the packet display to the top-right, as per your marked area */
-/* Update the .packet-display class to account for the new position of the status label */
+/* Packet Display and Total Packets */
 .packet-display {
-  position: fixed; /* Fixed position */
-  top: 55px; /* Increase top position to make space for the label */
-  right: calc(0px + 1cm); /* Move left by 1 cm */
-  width: 320px; /* Fixed width, adjust as needed */
-  height: 250px; /* Fixed height */
-  overflow-y: auto; /* Enable vertical scrollbar if content overflows */
-  background-color: #f9f9f9; /* Light grey background, you can change as needed */
-  border: 2px solid #ccc; /* Add border all around */
-  padding: 10px; /* Padding inside the container */
-}
-
-.packet-number {
-  display: inline-block;
-  text-align: right; /* Align the numbers to the right */
-  margin-right: 5px; /* Add some space between the number and the packet data */
-  color: #333; /* Darker text color for better readability */
-  font-weight: bold; /* Make the numbers bold */
+    position: fixed;
+    right: 10px;
+    top: 110px; /* Adjusted to make space for status label */
+    width: 320px;
+    height: 400px;
+    overflow-y: auto;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
 }
 
 .packet {
-  font-family: monospace;
-  margin-bottom: 6px;
-  white-space: pre-wrap; 
+  background-color: #ECF0F1;
+  border-bottom: 1px solid #BDC3C7;
+  padding: 8px;
+  font-family: 'Courier New', monospace;
+  font-size: 10px;
+  font-weight: bold;
+  white-space: nowrap; /* Prevent text from wrapping */
+  overflow: hidden; /* Hide overflow */
+  text-overflow: ellipsis; /* Add ellipsis for overflowed text */
 }
 
-.packet-count {
-  position: fixed;
-  right: calc(0px + 1cm); /* Align with the right edge of the packet display */
-  top: 328px; /* Position at the bottom */
-  padding: 10px;
-  background-color: #f2f2f2; /* Light background for visibility */
-  color: #333; /* Text color */
-  border-top: 2px solid #ccc; /* Top border for separation */
-  width: 322px; /* Same as the width of the packet display */
-  text-align: center; /* Center the text */
-  font-weight: bold; /* Bold text */
-
+.packet:nth-child(even) {
+  background-color: #BDC3C7;
 }
 
-/* Button styling */
+.packet-number {
+  font-weight: bold;
+  margin-right: 10px;
+  font-family: bold;
+  color: #2980B9;
+}
+
+/* Button Styling */
 button {
+  background: linear-gradient(to right, #3498DB, #2980B9);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
   margin: 10px;
-  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s, transform 0.3s;
 }
 
-/* Ensure the main div doesn't affect the positioning of packet display */
-div {
-  display: block; /* Default block layout */
+button:hover {
+  background: linear-gradient(to right, #2980B9, #3498DB);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* If you have other specific styling for div, you can add a class to them and style them separately */
+button:active {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+/* Packet Count Styling */
+.packet-count {
+    position: fixed;
+    right: 10px;
+    top: 520px; /* Adjusted to be below packet display */
+    width: 320px;
+    background-color: #34495E;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Footer */
+footer {
+  background-color: #2C3E50;
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  header, footer {
+      text-align: center;
+  }
+
+  .status-label, .packet-count {
+      right: 10px;
+  }
+
+  .packet-display {
+      top: 120px;
+  }
+}
