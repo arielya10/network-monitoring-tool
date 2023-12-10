@@ -9,6 +9,10 @@ function App() {
   const [packets, setPackets] = useState([]);
   const [connected, setConnected] = useState(socket.connected);
   const packetDisplayRef = useRef(null);
+  const [localIP, setLocalIP] = useState('');
+  const [publicIP, setPublicIP] = useState('');
+  const [defaultGateway, setDefaultGateway] = useState('');
+
 
   const startCapture = () => {
     console.log('Start Capture button clicked');
@@ -49,6 +53,25 @@ function App() {
     };
   }, []);
 
+  useEffect(() => {
+    const fetchNetworkInfo = async () => {
+        try {
+            const response = await fetch('http://localhost:5000/network_info');
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            setLocalIP(data.local_ip);
+            setPublicIP(data.public_ip);
+            setDefaultGateway(data.default_gateway);
+        } catch (error) {
+            console.error('Fetch error:', error);
+        }
+    };
+
+    fetchNetworkInfo();
+}, []);
+
   return (
     <div>
       <div className={`status-label ${connected ? 'connected' : 'disconnected'}`}>
@@ -67,6 +90,11 @@ function App() {
         {/* Display the number of captured packets */}
         <div className="packet-count">
         Total Packets Captured: {packets.length}
+      </div>
+      <div className="network-info">
+        <div>Local IP: {localIP}</div>
+        <div>Public IP: {publicIP}</div>
+        <div>Default Gateway: {defaultGateway}</div>
       </div>
     </div>
   );

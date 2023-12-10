@@ -2,8 +2,14 @@ from flask import Flask
 from flask_socketio import SocketIO
 import threading
 from packet_capture import start_capture, stop_capture, clear_packets, captured_packets
+import netifaces as ni
+import socket
+import requests
+from flask_cors import CORS
+
 
 app = Flask(__name__, static_folder='../frontend/build', static_url_path='/')
+CORS(app)
 socketio = SocketIO(app, cors_allowed_origins='*')
 
 # Event object to control the sniffing thread
@@ -11,6 +17,27 @@ stop_sniffing = threading.Event()
 
 # Initialize the packet capture thread variable
 packet_capture_thread = None
+
+def get_network_info():
+    # Get local IP
+    local_ip = socket.gethostbyname(socket.gethostname())
+    
+    # Get public IP
+    public_ip = requests.get('https://api.ipify.org').text
+
+    # Get default gateway
+    gws = ni.gateways()
+    default_gateway = gws['default'][ni.AF_INET][0]
+
+    return {
+        'local_ip': local_ip,
+        'public_ip': public_ip,
+        'default_gateway': default_gateway
+    }
+
+@app.route('/network_info')
+def network_info():
+    return get_network_info()
 
 @app.route('/')
 def index():
@@ -43,6 +70,8 @@ def emit_packets():
             socketio.emit('packet_data', {'data': captured_packets.copy()})
             captured_packets.clear()
         socketio.sleep(1)  # Adjust the sleep duration as needed
+
+
 
 if __name__ == '__main__':
     socketio.start_background_task(emit_packets)
