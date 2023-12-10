@@ -7,6 +7,7 @@ const socket = io('http://localhost:5000');
 
 function App() {
   const [packets, setPackets] = useState([]);
+  const [connected, setConnected] = useState(socket.connected);
   const packetDisplayRef = useRef(null);
 
   const startCapture = () => {
@@ -20,21 +21,33 @@ function App() {
   };
 
   useEffect(() => {
+    socket.on('connect', () => {
+      setConnected(true);
+    });
+
+    socket.on('disconnect', () => {
+      setConnected(false);
+    });
+
     socket.on('packet_data', (data) => {
       setPackets(prevPackets => [...prevPackets, ...data.data]);
-      // Scroll to the bottom of the packet display area
       if (packetDisplayRef.current) {
         packetDisplayRef.current.scrollTop = packetDisplayRef.current.scrollHeight;
       }
     });
 
     return () => {
+      socket.off('connect');
+      socket.off('disconnect');
       socket.off('packet_data');
     };
   }, []);
 
   return (
     <div>
+      <div className={`status-label ${connected ? 'connected' : 'disconnected'}`}>
+        {connected ? 'You can capture traffic' : 'Cannot find the server'}
+      </div>
       <button onClick={startCapture}>Start Capture</button>
       <button onClick={stopCapture}>Stop Capture</button>
       <div className="packet-display" ref={packetDisplayRef}>
