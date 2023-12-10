@@ -31,6 +31,11 @@ def handle_stop_capture():
     if packet_capture_thread:
         packet_capture_thread.join()
         packet_capture_thread = None
+        
+@socketio.on('clear_packets')
+def handle_clear_packets():
+    clear_packets()  # Function to clear the packets on the server side
+
 
 def emit_packets():
     while True:

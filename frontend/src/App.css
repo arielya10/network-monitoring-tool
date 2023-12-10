@@ -42,10 +42,23 @@
 
 .packet {
   font-family: monospace;
-  margin-bottom: 5px;
-  white-space: pre-wrap;
+  margin-bottom: 6px;
+  white-space: pre-wrap; 
 }
 
+.packet-count {
+  position: fixed;
+  right: calc(0px + 1cm); /* Align with the right edge of the packet display */
+  top: 328px; /* Position at the bottom */
+  padding: 10px;
+  background-color: #f2f2f2; /* Light background for visibility */
+  color: #333; /* Text color */
+  border-top: 2px solid #ccc; /* Top border for separation */
+  width: 322px; /* Same as the width of the packet display */
+  text-align: center; /* Center the text */
+  font-weight: bold; /* Bold text */
+
+}
 
 /* Button styling */
 button {

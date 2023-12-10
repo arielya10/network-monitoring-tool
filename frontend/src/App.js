@@ -20,6 +20,12 @@ function App() {
     socket.emit('stop_capture');
   };
 
+  const clearPackets = () => {
+    console.log('Clear button clicked');
+    setPackets([]); // Clears the packets from the React state
+    socket.emit('clear_packets'); // Inform the server to clear the packets
+  };
+
   useEffect(() => {
     socket.on('connect', () => {
       setConnected(true);
@@ -46,16 +52,21 @@ function App() {
   return (
     <div>
       <div className={`status-label ${connected ? 'connected' : 'disconnected'}`}>
-        {connected ? 'You can capture traffic' : 'Cannot find the server'}
+        {connected ? 'You can capture traffic' : 'No connection'}
       </div>
       <button onClick={startCapture}>Start Capture</button>
       <button onClick={stopCapture}>Stop Capture</button>
+      <button onClick={clearPackets}>Clear Traffic</button> {/* New clear button */}
       <div className="packet-display" ref={packetDisplayRef}>
         {packets.map((packet, index) => (
           <div key={index} className="packet">
             <span className="packet-number">{index + 1}</span> {packet}
           </div>
         ))}
+      </div>
+        {/* Display the number of captured packets */}
+        <div className="packet-count">
+        Total Packets Captured: {packets.length}
       </div>
     </div>
   );
