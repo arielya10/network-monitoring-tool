@@ -1,38 +1,40 @@
-.App {
-  text-align: center;
+/* Place the packet display to the top-right, as per your marked area */
+.packet-display {
+  position: fixed; /* Fixed position */
+  top: 0; /* Align to the top */
+  right: 0; /* Align to the right side */
+  width: 320px; /* Fixed width, adjust as needed */
+  height: 250px; /* Full height of the viewport */
+  overflow-y: auto; /* Enable vertical scrollbar if content overflows */
+  background-color: #f9f9f9; /* Light grey background, you can change as needed */
+  border-left: 2px solid #ccc; /* Add a left border */
+  padding: 10px; /* Padding inside the container */
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.packet-number {
+  display: inline-block;
+  text-align: right; /* Align the numbers to the right */
+  margin-right: 5px; /* Add some space between the number and the packet data */
+  color: #333; /* Darker text color for better readability */
+  font-weight: bold; /* Make the numbers bold */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.packet {
+  font-family: monospace;
+  margin-bottom: 5px;
+  white-space: pre-wrap;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+
+/* Button styling */
+button {
+  margin: 10px;
+  padding: 5px 10px;
 }
 
-.App-link {
-  color: #61dafb;
+/* Ensure the main div doesn't affect the positioning of packet display */
+div {
+  display: block; /* Default block layout */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+/* If you have other specific styling for div, you can add a class to them and style them separately */
