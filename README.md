@@ -10,6 +10,7 @@ This network monitoring tool, designed for real-time network traffic analysis, i
 
 ## Installation
 ```bash
+#install winpcap
 git clone https://github.com/arielya10/network-monitoring-tool.git
 cd network-monitoring-tool
 # Install backend dependencies
