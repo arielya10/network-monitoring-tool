@@ -94,6 +94,9 @@ useEffect(() => {
       <button onClick={startCapture}>Start Capture</button>
       <button onClick={stopCapture}>Stop Capture</button>
       <button onClick={clearPackets}>Clear Traffic</button> {/* New clear button */}
+      <div className="chart-container">
+        <PacketGraph packets={packets} clearGraph={clearGraph} />
+      </div>
       <div className="packet-display" ref={packetDisplayRef}>
         {packets.map((packet, index) => (
           <div key={index} className="packet">
@@ -110,7 +113,6 @@ useEffect(() => {
         <div>Public IP: {publicIP}</div>
         <div>Default Gateway: {defaultGateway}</div>
       </div>
-      <PacketGraph packets={packets} clearGraph={clearGraph} />
     </div>
   );
 }

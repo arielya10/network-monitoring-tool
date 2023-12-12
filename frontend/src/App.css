@@ -56,6 +56,22 @@ header {
   height: auto;
 }
 
+.chart-container {
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 40%; /* Adjust as needed */
+  margin-left: 10px; /* Align to the left with some margin */
+  margin-top: 50px; /* Space below the buttons */
+}
+
+/* Additional styling for the chart */
+.chart-container canvas {
+  max-width: 100%;
+  height: 300px; /* Example fixed height */
+}
+
 
 /* Status Label */
 .status-label {
