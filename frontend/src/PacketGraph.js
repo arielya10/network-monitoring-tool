@@ -11,6 +11,10 @@ const PacketGraph = ({ packets, clearGraph }) => {
 
   const protocolColors = useRef({});
 
+  const formatTime24Hour = (date) => {
+    return date.toTimeString().substring(0, 5);
+  };
+
   // Function to generate random colors for the graph lines
   const getRandomColor = () => {
     const letters = '0123456789ABCDEF';
@@ -45,7 +49,7 @@ const PacketGraph = ({ packets, clearGraph }) => {
       return;
     }
 
-    const timeNow = new Date().toLocaleTimeString();
+    const timeNow = formatTime24Hour(new Date()); // Format time to 24-hour
     const protocolsCount = {};
 
     // Count packets by protocol
@@ -59,12 +63,17 @@ const PacketGraph = ({ packets, clearGraph }) => {
       if (!protocolColors.current[protocol]) {
         protocolColors.current[protocol] = getRandomColor();
       }
+    
+      const protocolCount = protocolsCount[protocol];
+      const existingDataset = graphData.datasets.find(ds => ds.label.includes(protocol));
 
       return {
-        label: protocol,
-        data: [...(graphData.datasets.find(ds => ds.label === protocol)?.data || []), protocolsCount[protocol]],
+        label: `${protocol} (${protocolCount})`, // Include count in label
+        data: [...(existingDataset?.data || []), protocolCount],
         borderColor: protocolColors.current[protocol],
-        fill: false,
+        fill: true,
+        backgroundColor: protocolColors.current[protocol] + '66',
+        pointRadius: 0, // Remove dots from line
       };
     });
 
@@ -74,9 +83,29 @@ const PacketGraph = ({ packets, clearGraph }) => {
     });
   }, [packets, clearGraph]);
 
+
+  const options = {
+    scales: {
+      x: {
+        ticks: {
+          autoSkip: true,
+          maxRotation: 0,
+          minRotation: 0,
+          padding: 10  // Adjust this value as needed
+        }
+      },
+      y: {
+        ticks: {
+          padding: 10  // Adjust this value as needed
+        }
+      }
+    }
+  };
+
+  
   return (
     <div>
-      <Line data={graphData} />
+      <Line data={graphData} options={options} />
     </div>
   );
 };
