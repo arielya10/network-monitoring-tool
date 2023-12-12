@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
 import './App.css'; // Make sure this points to your App.css file
+import PacketGraph from './PacketGraph';
 
 // Connect to the Flask server
 const socket = io('http://localhost:5000');
@@ -12,6 +13,7 @@ function App() {
   const [localIP, setLocalIP] = useState('');
   const [publicIP, setPublicIP] = useState('');
   const [defaultGateway, setDefaultGateway] = useState('');
+  const [clearGraph, setClearGraph] = useState(false);
 
 
   const startCapture = () => {
@@ -27,6 +29,7 @@ function App() {
   const clearPackets = () => {
     console.log('Clear button clicked');
     setPackets([]); // Clears the packets from the React state
+    setClearGraph(true); // Signal to clear the graph
     socket.emit('clear_packets'); // Inform the server to clear the packets
   };
 
@@ -40,6 +43,11 @@ function App() {
     });
 
     socket.on('packet_data', (data) => {
+      setPackets(prevPackets => {
+        const newPackets = [...prevPackets, ...data.data];
+        console.log("New packets:", newPackets); // Debugging
+        return newPackets;
+      });
       setPackets(prevPackets => [...prevPackets, ...data.data]);
       if (packetDisplayRef.current) {
         packetDisplayRef.current.scrollTop = packetDisplayRef.current.scrollHeight;
@@ -72,6 +80,12 @@ function App() {
     fetchNetworkInfo();
 }, []);
 
+useEffect(() => {
+  if (clearGraph) {
+    setClearGraph(false);
+  }
+}, [clearGraph]);
+
   return (
     <div>
       <div className={`status-label ${connected ? 'connected' : 'disconnected'}`}>
@@ -96,6 +110,7 @@ function App() {
         <div>Public IP: {publicIP}</div>
         <div>Default Gateway: {defaultGateway}</div>
       </div>
+      <PacketGraph packets={packets} clearGraph={clearGraph} />
     </div>
   );
 }
