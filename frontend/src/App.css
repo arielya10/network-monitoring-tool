@@ -3,20 +3,20 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  transition: background-color 0.3s, color 0.3s;
+  transition: background-color 0.3s, color 0.3s; /* Smooth transition for background and color changes */
 }
 
 body {
-  background-color: #F0F2F5;
-  color: #333;
-  line-height: 1.6;
-  font-family: 'Roboto', sans-serif;
+  background-color: #F0F2F5; /* Light grey background */
+  color: #333; /* Dark grey text color */
+  line-height: 1.6; /* Spacing between lines of text */
+  font-family: 'Roboto', sans-serif; /* Roboto font for readability */
 }
 
 /* Dark Mode Styles */
 body.dark-mode {
-  background-color: #121212;
-  color: #FFF;
+  background-color: #121212; /* Dark background for dark mode */
+  color: #FFF; /* White text color for dark mode */
 }
 
 .dark-mode .packet-display,
@@ -25,26 +25,26 @@ body.dark-mode {
 .dark-mode header,
 .dark-mode .status-label,
 .dark-mode .packet-count {
-  background-color: #1E1E1E;
-  color: #FFF;
-  border-color: #333;
+  background-color: #1E1E1E; /* Dark background for elements in dark mode */
+  color: #FFF; /* White text for readability in dark mode */
+  border-color: #333; /* Dark border color */
 }
 
 /* Container for Centering Content */
 .container {
   width: 90%;
   margin: auto;
-  overflow: hidden;
+  overflow: hidden; /* Hide overflow content */
 }
 
 /* Navbar/Header */
 header {
-  background-color: #2C3E50;
-  color: #fff;
-  padding: 20px 0;
-  text-align: center;
-  font-size: 24px;
-  font-weight: 500;
+  background-color: #2C3E50; /* Dark blue background for header */
+  color: #fff; /* White text color */
+  padding: 20px 0; /* Padding above and below */
+  text-align: center; /* Center text alignment */
+  font-size: 24px; /* Larger font size for visibility */
+  font-weight: 500; /* Medium font weight */
 }
 
 /* Packet Display Wrapper - Relative Position */
@@ -58,155 +58,154 @@ header {
 
 .chart-container {
   padding: 10px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 40%; /* Adjust as needed */
-  margin-left: 10px; /* Align to the left with some margin */
-  margin-top: 50px; /* Space below the buttons */
+  background-color: #fff; /* White background for contrast */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  width: 40%; /* Adjustable width */
+  margin-left: 10px; /* Left margin for alignment */
+  margin-top: 50px; /* Top margin for spacing */
 }
 
 /* Additional styling for the chart */
 .chart-container canvas {
   max-width: 100%;
-  height: 300px; /* Example fixed height */
+  height: 300px; /* Fixed height for consistency */
 }
-
 
 /* Status Label */
 .status-label {
   position: fixed;
   right: 63px;
   top: 60px;
-  width: 200px; /* Fixed width */
-  background-color: #16A085;
-  color: white;
-  padding: 10px;
-  border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  text-align: center;
-  z-index: 1000;
+  width: 200px; /* Fixed width for consistency */
+  background-color: #16A085; /* Teal background color */
+  color: white; /* White text for contrast */
+  padding: 10px; /* Padding for spacing */
+  border-radius: 15px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+  text-align: center; /* Center text alignment */
+  z-index: 1000; /* Ensure label is above other elements */
 }
 
 .disconnected {
-  background-color: #E74C3C;
+  background-color: #E74C3C; /* Red background for disconnected status */
 }
 
 /* Packet Display and Total Packets */
 .packet-display {
     position: fixed;
     right: 10px;
-    top: 110px; /* Adjusted to make space for status label */
+    top: 110px; /* Adjusted top position for status label */
     width: 320px;
     height: 400px;
-    overflow-y: auto;
-    background-color: #fff;
-    border: 2px solid #ddd;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 10px;
+    overflow-y: auto; /* Enable vertical scrolling */
+    background-color: #fff; /* White background for contrast */
+    border: 2px solid #ddd; /* Light grey border */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+    padding: 10px; /* Padding for spacing */
 }
 
 .packet {
-  background-color: #ECF0F1;
-  border-bottom: 1px solid #BDC3C7;
-  padding: 8px;
-  font-family: 'Courier New', monospace;
-  font-size: 10px;
-  font-weight: bold;
-  white-space: nowrap; /* Prevent text from wrapping */
-  overflow: hidden; /* Hide overflow */
-  text-overflow: ellipsis; /* Add ellipsis for overflowed text */
+  background-color: #ECF0F1; /* Light grey background */
+  border-bottom: 1px solid #BDC3C7; /* Border for separation */
+  padding: 8px; /* Padding for spacing */
+  font-family: 'Courier New', monospace; /* Monospace font for code-like appearance */
+  font-size: 10px; /* Small font size for compact display */
+  font-weight: bold; /* Bold font for emphasis */
+  white-space: nowrap; /* Prevent text wrapping */
+  overflow: hidden; /* Hide overflow text */
+  text-overflow: ellipsis; /* Ellipsis for clipped text */
 }
 
 .packet:nth-child(even) {
-  background-color: #BDC3C7;
+  background-color: #BDC3C7; /* Alternate background for even packets */
 }
 
 .packet-number {
   font-weight: bold;
   margin-right: 10px;
   font-family: bold;
-  color: #2980B9;
+  color: #2980B9; /* Blue color for packet number */
 }
 
 /* Button Styling */
 button {
-  background: linear-gradient(to right, #3498DB, #2980B9);
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
-  margin: 10px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background 0.3s, transform 0.3s;
+  background: linear-gradient(to right, #3498DB, #2980B9); /* Gradient background */
+  color: #fff; /* White text color */
+  border: none; /* No border */
+  border-radius: 5px; /* Rounded corners */
+  padding: 10px 20px; /* Padding for size */
+  margin: 10px; /* Margin for spacing */
+  cursor: pointer; /* Pointer cursor on hover */
+  font-size: 16px; /* Larger font size */
+  transition: background 0.3s, transform 0.3s; /* Transition for hover effects */
 }
 
 button:hover {
-  background: linear-gradient(to right, #2980B9, #3498DB);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(to right, #2980B9, #3498DB); /* Inverted gradient on hover */
+  transform: translateY(-2px); /* Slight upward shift on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow on hover */
 }
 
 button:active {
-  transform: translateY(1px);
-  box-shadow: none;
+  transform: translateY(1px); /* Downward shift on click */
+  box-shadow: none; /* No shadow on click */
 }
 
 /* Packet Count Styling */
 .packet-count {
     position: fixed;
     right: 10px;
-    top: 520px; /* Adjusted to be below packet display */
+    top: 520px; /* Positioned below packet display */
     width: 320px;
-    background-color: #34495E;
-    color: #fff;
-    padding: 10px;
-    text-align: center;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #34495E; /* Dark background for contrast */
+    color: #fff; /* White text for readability */
+    padding: 10px; /* Padding for size */
+    text-align: center; /* Center text alignment */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
 }
 
 .network-info {
-  margin-top: 10px; /* Adds some space between the packet count and the network info */
-  background-color: #34495E; /* Different background color */
-  color: #fff; /* Text color */
-  padding: 10px;
-  text-align: center;
-  border-radius: 5px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin-top: 10px; /* Space between packet count and network info */
+  background-color: #34495E; /* Consistent background with packet count */
+  color: #fff; /* White text for contrast */
+  padding: 10px; /* Padding for size */
+  text-align: center; /* Center text alignment */
+  border-radius: 5px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
   position: fixed;
   right: 10px;
-  top: 550px; /* Adjust this value based on your layout */
-  width: 320px; /* Same width as packet-count for consistency */
+  top: 550px; /* Positioned below packet count */
+  width: 320px; /* Consistent width with packet count */
 }
 
 .network-info > div {
-  margin-bottom: 5px; /* Spacing between each info line */
+  margin-bottom: 5px; /* Space between each info line */
 }
 
 /* Footer */
 footer {
-  background-color: #2C3E50;
-  color: white;
-  text-align: center;
-  padding: 20px 0;
+  background-color: #2C3E50; /* Dark blue background for footer */
+  color: white; /* White text color */
+  text-align: center; /* Center text alignment */
+  padding: 20px 0; /* Padding above and below */
   position: fixed;
   bottom: 0;
-  width: 100%;
+  width: 100%; /* Full width */
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
   header, footer {
-      text-align: center;
+      text-align: center; /* Center align on smaller screens */
   }
 
   .status-label, .packet-count {
-      right: 10px;
+      right: 10px; /* Adjust positioning for smaller screens */
   }
 
   .packet-display {
-      top: 120px;
+      top: 120px; /* Adjust top position for smaller screens */
   }
 }
