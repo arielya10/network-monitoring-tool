@@ -1,36 +1,25 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Line } from 'react-chartjs-2'; // Import Line chart component from Chart.js
-import 'chart.js/auto'; // Auto import of Chart.js components
+import React, { useState, useEffect } from 'react';
+import { Line } from 'react-chartjs-2';
+import 'chart.js/auto';
 
-// The PacketGraph functional component
 const PacketGraph = ({ packets, clearGraph }) => {
-  // State for graph data
-  const [graphData, setGraphData] = useState({
-    labels: [],
-    datasets: [],
-  });
+  const [graphData, setGraphData] = useState({ labels: [], datasets: [] });
+  const [hiddenProtocols, setHiddenProtocols] = useState({}); // Track hidden protocols
 
-  // Ref to store colors for different protocols
-  const protocolColors = useRef({});
-
-  // Function to format time for graph labels
-  const formatTime24Hour = (date) => {
-    return date.toTimeString().substring(0, 5);
+  // Fixed colors for protocols
+  const protocolColors = {
+    'ARP': '#FF6384',
+    'HTTPS': '#36A2EB',
+    'DNS': '#FFCE56',
+    'ICMP': '#4BC0C0',
+    'HTTP': '#23C48E',
+    'SSL/TLS': '#845EC2',
+    'NTP': '#D65DB1',
+    'Other': '#9966FF'
   };
 
-  // Function to generate random colors for different protocols
-  const getRandomColor = () => {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  };
-
-  // Function to identify protocol from a packet
+  // Identify protocol from a packet
   const identifyProtocol = (packet) => {
-    // Example conditions to categorize packets by protocol
     if (packet.includes('ARP')) {
       return 'ARP';
     } else if (packet.includes('TCP') && packet.includes('https')) {
@@ -39,76 +28,75 @@ const PacketGraph = ({ packets, clearGraph }) => {
       return 'DNS';
     } else if (packet.includes('ICMP')) {
       return 'ICMP';
+    } else if (packet.includes('HTTP ')) { // Look for HTTP specifically
+      return 'HTTP';
+    } else if (packet.includes('SSL') || packet.includes('TLS')) {
+      return 'SSL/TLS';
+    } else if (packet.includes('NTP')) {
+      return 'NTP';
     } else {
-      return 'Other'; // Default category for unrecognized protocols
+      return 'Other';
     }
   };
 
-  // useEffect hook to update the graph whenever packets change
+  // Update graph data when packets change or graph is cleared
   useEffect(() => {
     if (clearGraph) {
-      // Reset the graph data and protocol colors on clear
       setGraphData({ labels: [], datasets: [] });
-      protocolColors.current = {};
+      setHiddenProtocols({});
       return;
     }
 
-    // Get current time for label
-    const timeNow = formatTime24Hour(new Date());
+    const timeNow = new Date().toLocaleTimeString();
     const protocolsCount = {};
 
-    // Count packets by protocol
     packets.forEach(packet => {
       const protocol = identifyProtocol(packet);
       protocolsCount[protocol] = (protocolsCount[protocol] || 0) + 1;
     });
 
-    // Prepare datasets for each protocol
     const newDatasets = Object.keys(protocolsCount).map(protocol => {
-      if (!protocolColors.current[protocol]) {
-        protocolColors.current[protocol] = getRandomColor(); // Assign random color if not already assigned
-      }
-    
       const protocolCount = protocolsCount[protocol];
       const existingDataset = graphData.datasets.find(ds => ds.label.includes(protocol));
 
       return {
-        label: `${protocol} (${protocolCount})`, // Label with protocol and count
-        data: [...(existingDataset?.data || []), protocolCount], // Append data to existing dataset
-        borderColor: protocolColors.current[protocol],
+        label: `${protocol} (${protocolCount})`,
+        data: [...(existingDataset?.data || []), protocolCount],
+        borderColor: protocolColors[protocol] || '#000000',
+        backgroundColor: `${protocolColors[protocol]}66` || '#00000066',
+        hidden: hiddenProtocols[protocol], // Use the hidden state
         fill: true,
-        backgroundColor: protocolColors.current[protocol] + '66', // Semi-transparent background color
-        pointRadius: 0, // No point radius for smoother line
+        pointRadius: 0
       };
     });
 
-    // Update the state with new graph data
-    setGraphData({
-      labels: [...graphData.labels, timeNow],
-      datasets: newDatasets,
-    });
-  }, [packets, clearGraph]);
+    setGraphData({ labels: [...graphData.labels, timeNow], datasets: newDatasets });
+  }, [packets, clearGraph, hiddenProtocols]);
 
-  // Chart.js options for the graph
   const options = {
     scales: {
       x: {
-        ticks: {
-          autoSkip: true, // Auto-skip labels to prevent overlap
-          maxRotation: 0,
-          minRotation: 0,
-          padding: 10  // Padding for x-axis ticks
-        }
+        ticks: { autoSkip: true, maxRotation: 0, minRotation: 0, padding: 10 }
       },
-      y: {
-        ticks: {
-          padding: 10  // Padding for y-axis ticks
+      y: { ticks: { padding: 10 } }
+    },
+    plugins: {
+      legend: {
+        onClick: (e, legendItem, legend) => {
+          const index = legendItem.datasetIndex;
+          const ci = legend.chart;
+          if (ci.isDatasetVisible(index)) {
+            ci.hide(index);
+            setHiddenProtocols({ ...hiddenProtocols, [legendItem.text.split(' ')[0]]: true });
+          } else {
+            ci.show(index);
+            setHiddenProtocols({ ...hiddenProtocols, [legendItem.text.split(' ')[0]]: false });
+          }
         }
       }
     }
   };
 
-  // Render the Line chart with graphData and options
   return (
     <div>
       <Line data={graphData} options={options} />
