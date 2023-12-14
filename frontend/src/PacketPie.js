@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Line } from 'react-chartjs-2';
+import { Pie  } from 'react-chartjs-2';
 import 'chart.js/auto';
 
-const PacketGraph = ({ packets, clearGraph }) => {
+const PacketPie  = ({ packets, clearGraph }) => {
   const [graphData, setGraphData] = useState({ labels: [], datasets: [] });
   const [hiddenProtocols, setHiddenProtocols] = useState({}); // Track hidden protocols
 
@@ -42,36 +42,36 @@ const PacketGraph = ({ packets, clearGraph }) => {
   // Update graph data when packets change or graph is cleared
   useEffect(() => {
     if (clearGraph) {
-      setGraphData({ labels: [], datasets: [] });
-      setHiddenProtocols({});
+      // Set graphData to a valid empty structure
+      setGraphData({ 
+          labels: [], 
+          datasets: [{
+              data: [],
+              backgroundColor: []
+          }] 
+      });
       return;
-    }
+  }
 
-    const timeNow = new Date().toLocaleTimeString();
     const protocolsCount = {};
 
     packets.forEach(packet => {
-      const protocol = identifyProtocol(packet);
-      protocolsCount[protocol] = (protocolsCount[protocol] || 0) + 1;
+        const protocol = identifyProtocol(packet);
+        protocolsCount[protocol] = (protocolsCount[protocol] || 0) + 1;
     });
 
-    const newDatasets = Object.keys(protocolsCount).map(protocol => {
-      const protocolCount = protocolsCount[protocol];
-      const existingDataset = graphData.datasets.find(ds => ds.label.includes(protocol));
+    const labels = Object.keys(protocolsCount).map(protocol => `${protocol} (${protocolsCount[protocol]})`);
+    const data = Object.values(protocolsCount);
+    const backgroundColors = Object.keys(protocolsCount).map(protocol => protocolColors[protocol] || '#000000');
 
-      return {
-        label: `${protocol} (${protocolCount})`,
-        data: [...(existingDataset?.data || []), protocolCount],
-        borderColor: protocolColors[protocol] || '#000000',
-        backgroundColor: `${protocolColors[protocol]}66` || '#00000066',
-        hidden: hiddenProtocols[protocol], // Use the hidden state
-        fill: true,
-        pointRadius: 0
-      };
+    setGraphData({
+        labels,
+        datasets: [{
+            data,
+            backgroundColor: backgroundColors
+        }]
     });
-
-    setGraphData({ labels: [...graphData.labels, timeNow], datasets: newDatasets });
-  }, [packets, clearGraph, hiddenProtocols]);
+}, [packets, clearGraph]);
 
   const options = {
     scales: {
@@ -98,10 +98,10 @@ const PacketGraph = ({ packets, clearGraph }) => {
   };
 
   return (
-    <div>
-      <Line data={graphData} options={options} />
+    <div className="pie-container">
+      <Pie data={graphData} options={{ responsive: true, maintainAspectRatio: true }} />
     </div>
-  );
+);
 };
 
-export default PacketGraph;
+export default PacketPie ;

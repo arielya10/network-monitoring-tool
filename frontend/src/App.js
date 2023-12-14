@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
 import './App.css'; // Import CSS styles for the application
-import PacketGraph from './PacketGraph'; // Import the PacketGraph component
+import PacketPie  from './PacketPie'; // Import the PacketPie  component
+import PacketLineChart from './PacketLineChart';
+
 
 // Establish connection to the Flask server using Socket.IO
 const socket = io('http://localhost:5000');
@@ -107,7 +109,9 @@ function App() {
       <button onClick={stopCapture}>Stop Capture</button>
       <button onClick={clearPackets}>Clear Traffic</button>
       <div className="chart-container">
-        <PacketGraph packets={packets} clearGraph={clearGraph} />
+        <PacketPie  packets={packets} clearGraph={clearGraph} />
+        <PacketLineChart packets={packets} />
+
       </div>
       <div className="packet-display" ref={packetDisplayRef}>
         {packets.map((packet, index) => (

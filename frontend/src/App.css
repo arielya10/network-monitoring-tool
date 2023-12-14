@@ -117,6 +117,25 @@ header {
   text-overflow: ellipsis; /* Ellipsis for clipped text */
 }
 
+.pie-container {
+  max-width: 400px; /* Adjust as needed */
+  max-height: 400px; /* Adjust as needed */
+  margin: auto; /* Center the chart */
+
+}
+
+.charts-container {
+  display: flex;
+  justify-content: space-around;
+  /* Add more styles as needed */
+}
+
+.line-chart-container {
+  width: 400px; /* Adjust as needed */
+  height: 300px; /* Adjust as needed */
+  margin: auto;
+}
+
 .packet:nth-child(even) {
   background-color: #BDC3C7; /* Alternate background for even packets */
 }
