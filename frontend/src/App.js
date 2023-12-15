@@ -17,6 +17,7 @@ function App() {
   const [publicIP, setPublicIP] = useState('');
   const [defaultGateway, setDefaultGateway] = useState('');
   const [clearGraph, setClearGraph] = useState(false); // State to control graph clearing
+  const [lineChartPackets, setLineChartPackets] = useState([]);
 
   // Function to start packet capture
   const startCapture = () => {
@@ -33,7 +34,8 @@ function App() {
   // Function to clear captured packets
   const clearPackets = () => {
     console.log('Clear button clicked');
-    setPackets([]); // Clears the packets from the React state
+    setPackets([]);
+    setLineChartPackets([]); // Clear the line chart packets as well
     setClearGraph(true); // Signal to clear the graph
     socket.emit('clear_packets'); // Inform the server to clear the packets
   };
@@ -52,16 +54,17 @@ function App() {
 
     // Handle packet data received from the server
     socket.on('packet_data', (data) => {
-      setPackets(prevPackets => {
-        const newPackets = [...prevPackets, ...data.data];
-        console.log("New packets:", newPackets); // Debugging
-        return newPackets;
-      });
+      // Update packets state for the pie chart to accumulate counts over time
+      setPackets(prevPackets => [...prevPackets, ...data.data]);
+  
+      // Update lineChartPackets state for the line chart to display per-second data
+      setLineChartPackets(data.data); // Set only the latest packets
+  
       if (packetDisplayRef.current) {
         packetDisplayRef.current.scrollTop = packetDisplayRef.current.scrollHeight; // Auto-scroll to latest packet
       }
     });
-
+  
     // Cleanup function to remove event listeners
     return () => {
       socket.off('connect');
@@ -110,7 +113,7 @@ function App() {
       <button onClick={clearPackets}>Clear Traffic</button>
       <div className="chart-container">
         <PacketPie  packets={packets} clearGraph={clearGraph} />
-        <PacketLineChart packets={packets} />
+        <PacketLineChart packets={lineChartPackets} clearGraph={clearGraph} />
 
       </div>
       <div className="packet-display" ref={packetDisplayRef}>

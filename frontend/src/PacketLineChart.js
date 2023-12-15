@@ -46,32 +46,39 @@ const PacketLineChart = ({ packets, clearGraph }) => {
       setHiddenProtocols({});
       return;
     }
-
-    const timeNow = new Date().toLocaleTimeString();
-    const protocolsCount = {};
-
-    packets.forEach(packet => {
+  
+    // Assuming `packets` prop now only contains packets for the current second
+    // Count the new packets for each protocol
+    const newProtocolsCount = packets.reduce((count, packet) => {
       const protocol = identifyProtocol(packet);
-      protocolsCount[protocol] = (protocolsCount[protocol] || 0) + 1;
-    });
-
-    const newDatasets = Object.keys(protocolsCount).map(protocol => {
-      const protocolCount = protocolsCount[protocol];
-      const existingDataset = graphData.datasets.find(ds => ds.label.includes(protocol));
-
+      count[protocol] = (count[protocol] || 0) + 1;
+      return count;
+    }, {});
+  
+    // Create or update datasets for each protocol
+    const newDatasets = Object.keys(protocolColors).map(protocol => {
+      // Find existing dataset for the protocol or create a new one
+      const existingDataset = graphData.datasets.find(ds => ds.label === protocol);
+      const newData = existingDataset ? [...existingDataset.data, newProtocolsCount[protocol] || 0] : [newProtocolsCount[protocol] || 0];
+      
       return {
-        label: `${protocol} (${protocolCount})`,
-        data: [...(existingDataset?.data || []), protocolCount],
-        borderColor: protocolColors[protocol] || '#000000',
-        backgroundColor: `${protocolColors[protocol]}66` || '#00000066',
-        hidden: hiddenProtocols[protocol], // Use the hidden state
+        label: protocol,
+        data: newData,
+        borderColor: protocolColors[protocol],
+        backgroundColor: `${protocolColors[protocol]}66`,
+        hidden: hiddenProtocols[protocol],
         fill: true,
         pointRadius: 0
       };
     });
-
-    setGraphData({ labels: [...graphData.labels, timeNow], datasets: newDatasets });
-  }, [packets, clearGraph, hiddenProtocols]);
+  
+    // Update the chart data
+    setGraphData(prevGraphData => ({
+      labels: [...prevGraphData.labels, new Date().toLocaleTimeString()],
+      datasets: newDatasets
+    }));
+  }, [packets, clearGraph]);
+  
 
   const options = {
     scales: {
