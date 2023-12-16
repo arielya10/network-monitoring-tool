@@ -81,6 +81,8 @@ const PacketLineChart = ({ packets, clearGraph }) => {
   
 
   const options = {
+    responsive: true,
+    maintainAspectRatio: true,
     scales: {
       x: {
         ticks: { autoSkip: true, maxRotation: 0, minRotation: 0, padding: 10 }
@@ -89,20 +91,27 @@ const PacketLineChart = ({ packets, clearGraph }) => {
     },
     plugins: {
       legend: {
-        onClick: (e, legendItem, legend) => {
-          const index = legendItem.datasetIndex;
-          const ci = legend.chart;
-          if (ci.isDatasetVisible(index)) {
-            ci.hide(index);
-            setHiddenProtocols({ ...hiddenProtocols, [legendItem.text.split(' ')[0]]: true });
-          } else {
-            ci.show(index);
-            setHiddenProtocols({ ...hiddenProtocols, [legendItem.text.split(' ')[0]]: false });
-          }
+        position: 'right',
+        },
+      title: {
+        display: true,
+        text: 'Packet Traffic Over Time', // Title text
+      },
+      tooltip: {
+        mode: 'index',
+        intersect: false,
+      },
+    },
+    layout: {
+      padding: {
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0
         }
-      }
-    }
-  };
+      },
+
+    };
 
   return (
     <div className="line-chart-container">

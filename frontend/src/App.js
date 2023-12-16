@@ -111,17 +111,16 @@ function App() {
       <button onClick={startCapture}>Start Capture</button>
       <button onClick={stopCapture}>Stop Capture</button>
       <button onClick={clearPackets}>Clear Traffic</button>
-      <div className="chart-container">
-        <PacketPie  packets={packets} clearGraph={clearGraph} />
+      <div className="row-container">
+        <PacketPie packets={packets} clearGraph={clearGraph} />
         <PacketLineChart packets={lineChartPackets} clearGraph={clearGraph} />
-
-      </div>
-      <div className="packet-display" ref={packetDisplayRef}>
-        {packets.map((packet, index) => (
-          <div key={index} className="packet">
-            <span className="packet-number">{index + 1}</span> {packet}
-          </div>
-        ))}
+        <div className="packet-display" ref={packetDisplayRef}>
+          {packets.map((packet, index) => (
+            <div key={index} className="packet">
+              <span className="packet-number">{index + 1}</span> {packet}
+            </div>
+          ))}
+        </div>
       </div>
       <div className="packet-count">
         Total Packets Captured: {packets.length}

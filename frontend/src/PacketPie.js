@@ -44,11 +44,11 @@ const PacketPie  = ({ packets, clearGraph }) => {
     if (clearGraph) {
       // Set graphData to a valid empty structure
       setGraphData({ 
-          labels: [], 
-          datasets: [{
-              data: [],
-              backgroundColor: []
-          }] 
+        labels: [], 
+        datasets: [{
+          data: [],
+          backgroundColor: []
+        }] 
       });
       return;
   }
@@ -74,32 +74,33 @@ const PacketPie  = ({ packets, clearGraph }) => {
 }, [packets, clearGraph]);
 
   const options = {
-    scales: {
-      x: {
-        ticks: { autoSkip: true, maxRotation: 0, minRotation: 0, padding: 10 }
-      },
-      y: { ticks: { padding: 10 } }
-    },
+    responsive: true,
+    maintainAspectRatio: false,
+    aspectRatio: 20,
     plugins: {
       legend: {
-        onClick: (e, legendItem, legend) => {
-          const index = legendItem.datasetIndex;
-          const ci = legend.chart;
-          if (ci.isDatasetVisible(index)) {
-            ci.hide(index);
-            setHiddenProtocols({ ...hiddenProtocols, [legendItem.text.split(' ')[0]]: true });
-          } else {
-            ci.show(index);
-            setHiddenProtocols({ ...hiddenProtocols, [legendItem.text.split(' ')[0]]: false });
-          }
-        }
+        position: 'right',
+      },
+      title: {
+        display: true,
+        text: 'Total Packet Distribution', // Title text
+      }  
+
+    },
+    layout: {
+      padding: {
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0
       }
-    }
+    },
+
   };
 
   return (
     <div className="pie-container">
-      <Pie data={graphData} options={{ responsive: true, maintainAspectRatio: true }} />
+      <Pie data={graphData} options={options} />
     </div>
 );
 };
