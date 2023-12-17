@@ -1,0 +1,71 @@
+/* Network Chart Container */
+.network-chart-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 20px;
+}
+  
+  /* SVG Chart Styling */
+  .network-chart-container svg {
+    flex: 1; /* Adjust according to your layout */
+    margin-right: 20px;
+    box-shadow: 0 4px 8px var(--shadow-color);
+    border-radius: 5px;
+    overflow: hidden;
+}
+  
+  /* Network Info Table Styling */
+  .network-info-table {
+    flex: 2; /* Adjust according to your layout */
+    max-height: 300px; /* Set maximum height to match graph height */
+    background-color: var(--background-color-light);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px var(--shadow-color); /* Adding shadow */
+    padding: 10px;
+    overflow-y: auto;
+    overflow-x: auto;
+    position: relative;
+    font-family: 'Courier New', monospace;
+    font-size: 10px;
+    font-weight: bold;
+    text-overflow: ellipsis;
+}
+
+.network-info-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+  
+.network-info-table th, .network-info-table td {
+    padding: 2px;
+    text-align: center;
+    border-bottom: 1px solid var(--packet-bg-even);
+    border-right: 1px solid var(--packet-bg-even); /* Adding vertical border */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.network-info-table td:last-child {
+    border-right: none;
+}
+  
+.network-info-table th {
+    background-color: var(--primary-color);
+    color: var(--text-color-light);
+    font-family: 'Roboto', sans-serif;
+    border-right: 1px solid var(--packet-bg-even); /* Adding vertical border for header cells */
+}
+
+.network-info-table th:last-child {
+    border-right: none;
+}
+
+.network-info-table td {
+    background-color: var(--background-color-light);
+}
+
+.network-info-table table tr:nth-child(even) {
+    background-color: var(--packet-bg-even);
+}
+  

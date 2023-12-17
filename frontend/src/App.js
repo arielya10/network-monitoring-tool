@@ -3,6 +3,8 @@ import io from 'socket.io-client';
 import './App.css'; // CSS styles for the application
 import PacketPie from './PacketPie'; // PacketPie component for pie chart visualization
 import PacketLineChart from './PacketLineChart'; // PacketLineChart component for line chart visualization
+import NetworkChart from './NetworkChart'; // Import the component
+import TrafficBarChart from './TrafficBarChart'; // Import the component
 
 
 const socket = io('http://localhost:5000');
@@ -16,10 +18,22 @@ function App() {
   const [defaultGateway, setDefaultGateway] = useState(''); // State to store default gateway
   const [clearGraph, setClearGraph] = useState(false); // State to control graph clearing
   const [lineChartPackets, setLineChartPackets] = useState([]); // State to store packets for line chart
+  const [networkDevices, setNetworkDevices] = useState([]); // State to store network devices
 
+  const startNetworkScan = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/scan_network');
+      if (!response.ok) throw new Error('Network response was not ok');
+      console.log("Network scanning started");
+    } catch (error) {
+      console.error('Error starting network scan:', error);
+    }
+  };
   // Start packet capture
-  const startCapture = () => socket.emit('start_capture');
-
+  const startCapture = () => {socket.emit('start_capture');
+  setNetworkDevices([]);  
+  startNetworkScan(); // Start network scanning when capture starts
+  };
   // Stop packet capture
   const stopCapture = () => socket.emit('stop_capture');
 
@@ -28,8 +42,10 @@ function App() {
     setPackets([]);
     setLineChartPackets([]);
     setClearGraph(true);
+    setNetworkDevices([]);
     socket.emit('clear_packets');
   };
+
 
   // Handle socket events
   useEffect(() => {
@@ -42,12 +58,16 @@ function App() {
         packetDisplayRef.current.scrollTop = packetDisplayRef.current.scrollHeight;
       }
     });
+    socket.on('new_device', (device) => {
+      setNetworkDevices(prevDevices => [...prevDevices, device]);
+    });
   
     // Cleanup event listeners
     return () => {
       socket.off('connect');
       socket.off('disconnect');
       socket.off('packet_data');
+      socket.off('new_device');
     };
   }, []);
 
@@ -94,14 +114,22 @@ function App() {
           ))}
         </div>
       </div>
-      <div className="info-table">
-        <div className="packet-count">
-          Total Packets Captured: {packets.length}
+      <div className='network-row-container'>
+        <div className="network-chart-container">
+          <NetworkChart devices={networkDevices} />
         </div>
-        <div className="network-info">
-          <div>Local IP: {localIP}</div>
-          <div>Public IP: {publicIP}</div>
-          <div>Default Gateway: {defaultGateway}</div>
+        <div className="traffic-bar-chart-container">
+          <TrafficBarChart packets={packets} />
+        </div>
+        <div className="info-table">
+          <div className="packet-count">
+            Total Packets Captured: {packets.length}
+          </div>
+          <div className="network-info">
+            <div>Local IP: {localIP}</div>
+            <div>Public IP: {publicIP}</div>
+            <div>Default Gateway: {defaultGateway}</div>
+          </div>
         </div>
       </div>
     </div>

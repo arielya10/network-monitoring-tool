@@ -1,12 +1,11 @@
-from flask import Flask
+from flask import Flask, jsonify
 from flask_socketio import SocketIO
 import threading
 import socket
 import requests
 import netifaces as ni
 from flask_cors import CORS
-
-from packet_capture import start_capture, stop_capture, clear_packets, captured_packets
+from packet_capture import *
 
 # Initialize Flask application with CORS and static file configuration
 app = Flask(__name__, static_folder='../frontend/build', static_url_path='/')
@@ -26,6 +25,14 @@ def index():
 def network_info():
     # Endpoint to get network information like local IP, public IP, and default gateway
     return get_network_info()
+
+@app.route('/scan_network')
+def scan_network_route():
+    network_info = get_network_info()
+    subnet = network_info['local_ip'] + '/24'
+    # Start scanning and emit each device data to the client
+    scan_network(subnet, socketio)
+    return jsonify({"status": "Scanning started"})
 
 @socketio.on('start_capture')
 def handle_start_capture():

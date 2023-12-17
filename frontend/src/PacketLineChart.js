@@ -71,9 +71,9 @@ const PacketLineChart = ({ packets, clearGraph }) => {
     maintainAspectRatio: true,
     scales: {
       x: {
-        ticks: { autoSkip: true, maxRotation: 0, minRotation: 0, padding: 10 }
+        ticks: { autoSkip: true, maxRotation: 0, minRotation: 0, padding: 1, maxTicksLimit: 5 }
       },
-      y: { ticks: { padding: 10 } }
+      y: { ticks: { padding: 1 } }
     },
     plugins: {
       legend: { position: 'right' },

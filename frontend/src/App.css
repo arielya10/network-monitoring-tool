@@ -28,7 +28,7 @@ body {
   color: var(--text-color-dark);
   font-size: 16px;
   line-height: 1.5;
-  overflow-x: hidden;
+  overflow-x: auto;
   overflow-y: scroll;
 }
 
@@ -66,7 +66,7 @@ header {
 
 /* Status Label */
 .status-label {
-  position: fixed;
+  position: absolute;
   right: 180px;
   top: 10px;
   width: 320px;
@@ -91,7 +91,7 @@ header {
   margin-top: 10px;
   height: 300px;
   width: 200px;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
   position: relative;
 }
@@ -106,6 +106,7 @@ header {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  position: relative;
 }
 
 .pie-container, .line-chart-container {
@@ -134,7 +135,6 @@ header {
   color: var(--text-color-dark);
   font-size: 16px;
   line-height: 1.5;
-  overflow: hidden;
   position: relative;
 }
 
@@ -173,25 +173,91 @@ button:active {
 }
 
 /* Packet Count and Network Info Styling */
-.packet-count, .network-info {
-  position: fixed;
-  right: 10px;
-  width: 320px;
-  background-color: var(--header-footer-bg);
+.network-info {
+  background-color: var(--packet-bg-even);
   color: var(--text-color-light);
   padding: 10px;
   text-align: center;
   border-radius: 5px;
   box-shadow: 0 4px 8px var(--shadow-color);
+  
+}
+
+.network-row-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: stretch;
+  margin: 20px;
+}
+
+.network-row-container > div {
+  margin: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px var(--shadow-color);
+  background-color: var(--background-color-light);
+  color: var(--text-color-dark);
+  font-size: 16px;
+  line-height: 1.5;
+  position: relative;
+}
+.network-chart-container, .traffic-bar-chart-container {
+  flex: 2; /* Larger space */
+}
+.packet-count-container, .network-info-container {
+  margin-bottom: 10px;
 }
 
 .packet-count {
-  top: 520px;
+  background-color: var(--packet-bg-even);
+  padding: 10px;
+  text-align: center;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px var(--shadow-color);
+  font-weight: bold;
 }
 
-.network-info {
-  top: 550px;
-  margin-top: 10px;
+.info-table {
+  flex: 1; /* Adjust as needed */
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+  justify-content: center; /* Center children horizontally in the main axis */
+  align-items: center; /* Center children vertically in the cross axis */
+  margin: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px var(--shadow-color);
+  background-color: var(--background-color-light);
+  color: var(--text-color-dark);
+  font-size: 16px;
+  line-height: 1.5;
+  position: relative;
+}
+
+.packet-count, .network-info {
+  width: 100%; /* Adjust as needed */
+  /* Rest of your styles */
+}
+
+.bar-container {
+  width: 100%; /* Adjust width as needed */
+  height: 300px; /* Adjust height as needed */
+  display: flex; /* To align items horizontally */
+  justify-content: center; /* To align items horizontally */
+  align-items: center; /* To align items vertically */
+}
+
+.network-row-container > div, .network-row-container > * {
+  flex: 1; /* Assign equal space to each child, adjust as needed */
+  margin: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px var(--shadow-color);
+  background-color: var(--background-color-light);
+  color: var(--text-color-dark);
+  font-size: 16px;
+  line-height: 1.5;
+  position: relative;
 }
 
 .network-info > div {
@@ -220,7 +286,7 @@ footer {
     padding: 10px 0;
   }
 
-  .status-label, .packet-count {
+  .status-label{
     right: 10px;
   }
 
