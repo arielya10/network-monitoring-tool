@@ -1,78 +1,70 @@
 
-# Network Traffic Analyzer
+<div align="center">
+<h1 align="center">
+<br>NETWORK-MONITORING-TOOL</h1>
+<h3>◦ Real-time Network Packet Monitoring and Analysis</h3>
+<h3>◦ Developed with the software and tools below:</h3>
 
-## Introduction
-This project is a Network Traffic Analyzer tool designed to capture and analyze network traffic in real-time. It leverages a React-based frontend with a Flask backend to display network data through interactive charts and graphs. The application offers functionalities like packet capturing, network device scanning, and traffic data visualization.
+<p align="center">
+<img src="https://img.shields.io/badge/D3.js-F9A03C.svg?style=flat-square&logo=d3dotjs&logoColor=black" alt="D3.js" />
+<img src="https://img.shields.io/badge/Chart.js-FF6384.svg?style=flat-square&logo=chartdotjs&logoColor=white" alt="Chart.js" />
+<img src="https://img.shields.io/badge/JavaScript-F7DF1E.svg?style=flat-square&logo=JavaScript&logoColor=black" alt="JavaScript" />
+<img src="https://img.shields.io/badge/HTML5-E34F26.svg?style=flat-square&logo=HTML5&logoColor=white" alt="HTML5" />
+<img src="https://img.shields.io/badge/React-61DAFB.svg?style=flat-square&logo=React&logoColor=black" alt="React" />
+<img src="https://img.shields.io/badge/Flask-000000.svg?style=flat-square&logo=Flask&logoColor=white" alt="Flask" />
+<img src="https://img.shields.io/badge/Socket.IO-010101.svg?style=flat-square&logo=Socket.io&logoColor=white" alt="Socket.IO" />
+<img src="https://img.shields.io/badge/Scapy-3776AB.svg?style=flat-square&logo=Python&logoColor=white" alt="Scapy" />
+</p>
 
-## Key Features
-- Real-time packet capture analysis.
-- Network device scanning and detection.
-- Interactive data visualizations using D3.js and Chart.js.
-- Display of network information such as local IP, public IP, and default gateway.
-- Support for different network protocols within the visualization charts.
+## 📍Project Description
+NETWORK-MONITORING-TOOL is a comprehensive tool designed for real-time network packet monitoring and analysis. Built using Flask and React, it integrates Socket.IO for real-time communication, Scapy for packet capturing, and D3.js and Chart.js for dynamic data visualization. This tool is perfect for network administrators and cybersecurity professionals who require an in-depth understanding of network traffic.
 
-## Technologies Used
-- **Frontend**: React.js
-- **Backend**: Flask, Flask-SocketIO
-- **Data Visualization**: D3.js, Chart.js
-- **Packet Capture**: WinPcap (Windows), Scapy (Python)
-- **Other Libraries**: netifaces, requests
+## 📦Features
+- **Real-Time Packet Capture**: Utilizes Scapy to capture network packets in real-time.
+- **Interactive Network Visualization**: Offers a network graph built with D3.js to visualize network topology and device connections.
+- **Packet Data Analysis**: Analyzes packet data with various charts including pie, line, and bar charts using Chart.js.
+- **Network Scanning**: Capable of scanning the local network to identify active devices.
+- **Live Data Updates**: Uses Socket.IO for seamless and immediate updates of network data on the frontend.
+- **User-Friendly Interface**: Easy-to-navigate React frontend for monitoring and analyzing network traffic.
 
-## Installation
 
-### Prerequisites
-- Install [Node.js](https://nodejs.org/).
-- Install [Python](https://www.python.org/downloads/).
-- Install [WinPcap](https://www.winpcap.org/install/default.htm) for Windows or ensure libpcap is installed for Linux/Mac.
 
-### Backend Setup
-1. Clone the repository.
-2. Navigate to the backend directory.
-3. (Optional) Set up a Python virtual environment and activate it.
-4. Install the required Python packages:
+## 🔧Installation and Setup
+**Prerequisites**:
+
+Install [Node.js](https://nodejs.org/)  
+Install [Python](https://www.python.org/downloads/)  
+Install [WinPcap](https://www.winpcap.org/install/default.htm) 
+
+
+
+1. **Clone the Repository**:
    ```bash
+   git clone https://github.com/arielya10/network-monitoring-tool
+   cd network-monitoring-tool
+   ```
+2. **Set Up the Backend**:
+   ```bash
+   # Install Python dependencies
    pip install -r requirements.txt
+   # Start the Flask server
+   python backend\app.py
    ```
-
-### Frontend Setup
-1. Navigate to the frontend directory from the root of the repository.
-2. Install the necessary Node.js packages:
+3. **Set Up the Frontend**:
    ```bash
+   # Navigate to the frontend directory
+   cd frontend
+   # Install JavaScript dependencies
    npm install
+   # Start the React app
+   npm start
    ```
 
-## Running the Application
+## 🤖Usage
+After setting up both the Flask server and the React frontend, access the web application through your browser at `http://localhost:3000`. Use the interface to start capturing packets, view real-time network traffic, and analyze packet data through various visualizations.
 
-### Starting the Backend Server
-From the backend directory, run:
-```bash
-python app.py
-```
+## 🤝Contributing
+Contributions to NETWORK-MONITORING-TOOL are welcome! If you'd like to contribute, please fork the repository and use a feature branch. Pull requests are warmly welcomed.
 
-### Running the Frontend
-In a separate terminal, navigate to the frontend directory and start the React app:
-```bash
-npm start
-```
-
-## Usage
-- **Start Capture**: Click the 'Start Capture' button to begin capturing network packets.
-- **Stop Capture**: Click the 'Stop Capture' button to stop the packet capture process.
-- **Clear Traffic**: Click the 'Clear Traffic' button to clear the current packet capture data from the display.
-- **View Charts**: Observe various charts representing network traffic, including Pie Charts, Line Charts, and Bar Charts.
-- **Network Chart**: Shows a graphical representation of network devices detected during scanning.
-
-## Contributing
-Contributions to the project are welcome. Please follow these steps to contribute:
-1. Fork the repository.
-2. Create a new branch for your feature.
-3. Commit your changes.
-4. Push to the branch.
-5. Submit a pull request.
-
-## License
-[MIT License](LICENSE)
-
-## Acknowledgements
-- Thanks to all the libraries and frameworks that made this project possible.
-- Special thanks to contributors and supporters of this project.
+## 📄License
+This project is licensed under the MIT License - see the LICENSE.md file for details.
