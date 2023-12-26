@@ -18,7 +18,7 @@
 </div>
 
 ---
-![Alt text](https://i.imgur.com/ttIuaG0.png)
+![Alt text]()
 
 ## 📖 Table of Contents
 - [📖 Table of Contents](#-table-of-contents)
